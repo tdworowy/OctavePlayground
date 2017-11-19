@@ -11,11 +11,20 @@ function [J, grad] = costFunction(theta, X, y)
 
 end
 
+function p = predict(theta, X)
+
+  m = size(X, 1);
+  p = zeros(m, 1);
+  p = sigmoid(X*theta) >= 0.5;
+
+end
+
+
 
 clear ; close all; clc
 
 
-data =csvread('winequality-red.csv');
+data =csvread('winequality-red_cleaned.csv');
 X = data(:, [1, 11]); y = data(:, 12);
 
 [m, n] = size(X);
@@ -37,7 +46,8 @@ fprintf('Cost at theta found by fminunc: %f\n', cost);
 fprintf('theta: \n');
 fprintf(' %f \n', theta);
 
-
+p = predict(theta, X);
+fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
 
 
 
