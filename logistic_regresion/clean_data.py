@@ -2,6 +2,15 @@ import csv
 
 
 def change_quality(file, sep=','):
+    """
+    change the data in the quality column to fit 2 clases logistic regression
+
+
+    :param file:
+    :param sep:
+
+    """
+
     with open(file, 'r') as f:
         reader = csv.reader(f, delimiter=sep)
         rows = []
