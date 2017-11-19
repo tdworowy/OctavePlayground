@@ -20,7 +20,7 @@ def change_quality(file, sep=','):
             else:
                 row[11] = 0
             rows.append(row)
-    with open("winequality-red_cleaned.csv", 'w') as f:
+    with open("%s_cleaned.csv" % file, 'w') as f:
         writer = csv.writer(f, delimiter=',')
         writer.writerows(rows)
 
