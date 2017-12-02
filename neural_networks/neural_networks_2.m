@@ -194,7 +194,7 @@ m = size(X, 1);
 sel = randperm(size(X, 1));
 sel = sel(1:100);
 
-#displayData(X(sel, :));
+displayData(X(sel, :));
 
 fprintf('Load weights.mat.\n');
 load('weights.mat');
@@ -207,6 +207,7 @@ lambda = 1;
 fprintf('nnCostFunction.\n');
 J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
                    num_labels, X, y, lambda);
+fprintf('DONE.\n');
 pause
 g = sigmoidGradient([-1 -0.5 0 0.5 1]);
 
@@ -221,16 +222,21 @@ pause
 initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 
 fprintf('checkNNGradients.\n');
-pause
 checkNNGradients;
+fprintf('DONE.\n');
+pause
 
 lambda = 3;
+fprintf('checkNNGradients.\n');
 checkNNGradients(lambda);
+fprintf('DONE.\n');
+pause
 
 fprintf('nnCostFunction.\n');
-pause
 debug_J  = nnCostFunction(nn_params, input_layer_size, ...
                           hidden_layer_size, num_labels, X, y, lambda);
+fprintf('DONE.\n');
+pause
 
 options = optimset('MaxIter', 50);
 
@@ -239,8 +245,10 @@ costFunction = @(p) nnCostFunction(p, ...
                                    input_layer_size, ...
                                    hidden_layer_size, ...
                                    num_labels, X, y, lambda);
-fprintf('fminunc.\n');
-[nn_params, cost] = fminunc(costFunction, initial_nn_params, options);
+fprintf('fmincg.\n');
+[ n_params, cost] = fmincg(costFunction, initial_nn_params, options);
+fprintf('DONE.\n');
+pause
 
 Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
                  hidden_layer_size, (input_layer_size + 1));
@@ -248,10 +256,13 @@ Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
 
-#displayData(Theta1(:, 2:end));
+displayData(Theta1(:, 2:end));
 
 fprintf('predict.\n');
 pause
 pred = predict(Theta1, Theta2, X);
+fprintf('DONE.\n');
+pred
+pause
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
