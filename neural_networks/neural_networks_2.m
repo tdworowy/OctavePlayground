@@ -173,9 +173,11 @@ function checkNNGradients(lambda)
 
   [cost, grad] = costFunc(nn_params);
   numgrad = computeNumericalGradient(costFunc, nn_params);
-
-  disp([numgrad grad]);
-
+  fprintf('Numerical gradient:\n');
+  disp([numgrad])
+  fprintf('gradient:\n');
+  disp([grad])
+ 
 end
 
 fprintf('START.\n');
@@ -238,7 +240,7 @@ debug_J  = nnCostFunction(nn_params, input_layer_size, ...
 fprintf('DONE.\n');
 pause
 
-options = optimset('MaxIter', 50);
+options = optimset('MaxIter', 100);
 
 lambda = 1;
 costFunction = @(p) nnCostFunction(p, ...
